@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.direnv/
+/result
+result
+.env
+.env.*
+!.env.example
+*.tsbuildinfo

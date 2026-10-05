@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "dev", "type": "shell", "command": "bun run dev", "isBackground": true, "problemMatcher": [] },
+    { "label": "build", "type": "shell", "command": "make build", "group": { "kind": "build", "isDefault": true }, "problemMatcher": [] },
+    { "label": "ci (all gates)", "type": "shell", "command": "make ci", "problemMatcher": [] }
+  ]
+}

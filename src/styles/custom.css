@@ -1,0 +1,5 @@
+/* Starlight customCss hook — estate tokens land here. Keep overrides
+   scoped and commented; do not fight the theme's variables. */
+:root {
+  --sl-content-width: 48rem;
+}

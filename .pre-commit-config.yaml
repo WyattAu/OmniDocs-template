@@ -1,0 +1,26 @@
+# Mirrors the CI gates (contract #6).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: detect-private-key
+  - repo: https://github.com/crate-ci/typos
+    rev: v1
+    hooks:
+      - id: typos
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: biome
+        name: biome (lint + format check)
+        entry: bunx biome check --no-errors-on-unmatched
+        language: system
+        types_or: [ts, tsx, javascript, json]
