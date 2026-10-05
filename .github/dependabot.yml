@@ -2,6 +2,12 @@ version: 2
 updates:
   - package-ecosystem: bun
     directory: "/"
+    # TypeScript 7 (native port) ships no programmatic compiler API, which
+    # `astro check` requires. Ignore 7.x until Astro exposes support:
+    # https://github.com/withastro/roadmap/discussions/1321
+    ignore:
+      - dependency-name: typescript
+        versions: [">=7.0.0"]
     schedule:
       interval: weekly
       day: monday
