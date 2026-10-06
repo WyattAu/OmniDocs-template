@@ -18,29 +18,44 @@ now_ms() {
   python3 -c 'import time; print(int(time.time() * 1000))'
 }
 
-
 start="$(now_ms)"
 bun run build >/dev/null
 end="$(now_ms)"
 
-python3 - "$CURRENT" "$((end - start))" <<'PY'
+python3 - "$CURRENT" "$((end - start))" <<'PYBODY'
 import pathlib
 import sys
 
 out = pathlib.Path(sys.argv[1])
 build_ms = int(sys.argv[2])
 dist = pathlib.Path("dist")
-total = sum(p.stat().st_size for p in dist.rglob("*") if p.is_file()) if dist.exists() else 0
+if not dist.exists():
+    raise SystemExit(f"bench: {dist} does not exist - the build did not run")
+
+# Total shipped bytes plus a per-type breakdown, so when the budget trips the
+# report says *what* grew instead of only that something did.
+buckets = {"js": 0, "css": 0, "html": 0, "other": 0}
+for path in dist.rglob("*"):
+    if path.is_file():
+        suffix = path.suffix.lstrip(".").lower()
+        buckets[suffix if suffix in buckets else "other"] += path.stat().st_size
+
+total = sum(buckets.values())
 if total == 0:
-    raise SystemExit(f"bench: nothing built in {dist} - run the build first")
-# Shipped bytes are exact, so they gate at 5%. Build wall-clock on a shared
-# runner is not: two identical consecutive builds differed by 18-88%, so it is
-# recorded and reported, never gated.
-out.write_text(
-    f"site-bytes\t{total}\tbytes\tgate\n"
-    f"build-ms\t{build_ms}\tms\tinfo\n"
-)
-PY
+    raise SystemExit(f"bench: {dist} is empty - the build produced nothing to measure")
+
+lines = [
+    f"site-bytes\t{total}\tbytes\tgate",
+    f"site-bytes/js\t{buckets['js']}\tbytes\tgate",
+    f"site-bytes/css\t{buckets['css']}\tbytes\tgate",
+    f"site-bytes/html\t{buckets['html']}\tbytes\tgate",
+    f"site-bytes/other\t{buckets['other']}\tbytes\tgate",
+    # Build wall-clock on a shared runner is not gateable (18-88% swings across
+    # identical runs); it is recorded so a trend is visible in the baseline.
+    f"build-ms\t{build_ms}\tms\tinfo",
+]
+out.write_text("\n".join(lines) + "\n")
+PYBODY
 
 python3 scripts/compare-bench.py "$BASELINE" "$CURRENT" \
   --threshold-pct "$THRESHOLD_PCT" "${UPDATE[@]+"${UPDATE[@]}"}"

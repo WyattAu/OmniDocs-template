@@ -1,3 +1,7 @@
 # Committed performance baseline. Regenerate deliberately with `make bench-update`; never hand-edited.
-build-ms	11333.000	ms	info
+build-ms	12750.000	ms	info
 site-bytes	257551.000	bytes	gate
+site-bytes/css	86064.000	bytes	gate
+site-bytes/html	66770.000	bytes	gate
+site-bytes/js	103933.000	bytes	gate
+site-bytes/other	784.000	bytes	gate
