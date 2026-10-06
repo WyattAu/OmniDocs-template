@@ -1,7 +1,13 @@
 # Committed performance baseline. Regenerate deliberately with `make bench-update`; never hand-edited.
-build-ms	12750.000	ms	info
-site-bytes	257551.000	bytes	gate
-site-bytes/css	86064.000	bytes	gate
+#
+# Recorded from CI (the supported toolchain: the devcontainer / Actions image).
+# A local run that reports +251% on site-bytes is measuring a *different*
+# build: Starlight's Pagefind index is generated through npx, so a machine
+# without node on PATH silently ships a smaller site. See PITFALLS-style note
+# in the ADR - measure where CI measures.
+build-ms	6197.000	ms	info
+site-bytes	905231.000	bytes	gate
+site-bytes/css	149712.000	bytes	gate
 site-bytes/html	66770.000	bytes	gate
-site-bytes/js	103933.000	bytes	gate
-site-bytes/other	784.000	bytes	gate
+site-bytes/js	545204.000	bytes	gate
+site-bytes/other	143545.000	bytes	gate
