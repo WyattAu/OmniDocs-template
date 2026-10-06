@@ -1,5 +1,10 @@
 {
   "editor.formatOnSave": true,
+  "workbench.colorTheme": "Shroom Space",
+  "workbench.iconTheme": "vs-seti",
   "editor.defaultFormatter": "biomejs.biome",
-  "files.watcherExclude": { "**/dist/**": true, "**/node_modules/**": true }
+  "files.watcherExclude": {
+    "**/dist/**": true,
+    "**/node_modules/**": true
+  }
 }
