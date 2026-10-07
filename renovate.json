@@ -1,28 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "$comment": "Renovate updates this repo's bun.lock (Dependabot's bun updater cannot parse lockfileVersion 2 - see .github/dependabot.yml). Dependabot stays for github-actions. Requires the Renovate GitHub app to be installed for this repo.",
-  "extends": [
-    "config:recommended"
-  ],
-  "enabledManagers": [
-    "bun"
-  ],
-  "schedule": [
-    "after 6am and before 10am on monday"
-  ],
+  "extends": ["config:recommended"],
+  "enabledManagers": ["bun"],
+  "schedule": ["after 6am and before 10am on monday"],
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": [
-      "before 6am on monday"
-    ]
+    "schedule": ["before 6am on monday"]
   },
   "packageRules": [
     {
       "description": "TypeScript 7 (native port) ships no programmatic compiler API, which astro check and knip require - mirror of the dependabot ignore",
-      "matchPackageNames": [
-        "typescript"
-      ],
+      "matchPackageNames": ["typescript"],
       "allowedVersions": "<7"
     }
   ]
